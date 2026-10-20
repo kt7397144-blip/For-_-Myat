@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Special Thadingyut Wish for Ma Ma 🤍</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap');
+
+*{box-sizing:border-box}
+:root{--gold:#f6d58b;--pink:#ffb9d2;--cream:#fff7e9}
+body{
+ margin:0;font-family:'Noto Sans Myanmar',sans-serif;
+ color:#fff7ee;background:#100d23;overflow:hidden;
+}
+#stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.glow{
+ position:fixed;width:280px;height:280px;border-radius:50%;
+ filter:blur(85px);opacity:.22;pointer-events:none;z-index:0;
+ background:#9c68ff;top:8%;left:-100px;
+}
+.glow.two{background:#ff8dbb;top:auto;left:auto;right:-100px;bottom:5%}
+#app{position:relative;z-index:1;height:100dvh;overflow:hidden}
+.page{
+ display:none;height:100%;width:100%;overflow-y:auto;
+ padding:28px 20px 100px;align-items:center;
+ justify-content:center;flex-direction:column;text-align:center;
+ animation:fade .65s ease;
+}
+.page.active{display:flex}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+h1,h2{color:var(--gold);line-height:1.65}
+h1{font-size:clamp(25px,6vw,38px)}
+h2{font-size:clamp(21px,5vw,29px)}
+p{line-height:2;font-size:15px}
+.small{color:#e6d9f8;font-size:13px}
+button{
+ font-family:inherit;border:1px solid #ffe4ad;
+ color:#2c1838;background:linear-gradient(135deg,#ffe8b5,#ffbdd5);
+ border-radius:30px;padding:12px 22px;font-size:14px;
+ cursor:pointer;box-shadow:0 0 22px #f6c6d844;margin:7px;
+}
+button:active{transform:scale(.97)}
+button.secondary{color:#fff;background:#ffffff12;border-color:#ffffff55}
+.heart{font-size:44px;animation:pulse 1.8s infinite}
+@keyframes pulse{50%{transform:scale(1.13)}}
+.envelope{
+ width:190px;height:125px;position:relative;margin:25px auto;
+ background:#f5c8dc;border-radius:7px;box-shadow:0 0 35px #ffafd555;
+ cursor:pointer;
+}
+.envelope:before{
+ content:"";position:absolute;top:0;left:0;width:0;height:0;
+ border-left:95px solid transparent;border-right:95px solid transparent;
+ border-top:75px solid #ffe6ed;
+}
+.envelope:after{
+ content:"🤍";position:absolute;left:0;right:0;top:49px;font-size:30px;
+}
+.frame{
+ width:min(100%,390px);border:1px solid #ffffff30;
+ border-radius:22px;padding:12px;background:#ffffff09;
+ box-shadow:0 0 28px #e4b5ff16;
+}
+iframe{width:100%;border:0;border-radius:14px;display:block}
+.video-frame{aspect-ratio:9/16;max-height:55dvh;background:#090811}
+.youtube-frame{aspect-ratio:16/9;background:#05040a}
+.note{
+ width:min(100%,520px);text-align:left;
+ background:#ffffff0b;border:1px solid #ffffff20;
+ border-radius:18px;padding:20px 19px;margin:12px auto;
+}
+.note p{margin:0 0 16px}
+.note p:last-child{margin-bottom:0}
+.note h3{color:var(--pink);font-size:16px;line-height:1.9}
+.record-wrap{margin:16px auto}
+.record{
+ width:190px;height:190px;border-radius:50%;margin:auto;
+ background:repeating-radial-gradient(circle,#15131b 0 4px,#37313d 5px 7px,#17141e 8px 11px);
+ border:5px solid #d7b7ff;
+ box-shadow:0 0 35px #e0b7ff45;
+ display:grid;place-items:center;
+}
+.record.playing{animation:spin 3s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.record-label{
+ width:65px;height:65px;border-radius:50%;
+ background:radial-gradient(circle,#fff0c5,#d58cb6 65%,#5b386a);
+ border:3px solid #fff1ce;display:grid;place-items:center;font-size:20px;
+}
+.stars-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:20px}
+.star{font-size:32px;cursor:pointer;transition:.2s}
+.star.collected{filter:drop-shadow(0 0 9px gold);transform:scale(1.2)}
+.choice{display:block;width:min(100%,320px);margin:10px auto}
+#nav{
+ position:fixed;z-index:10;bottom:0;left:0;right:0;
+ padding:12px 10px calc(12px + env(safe-area-inset-bottom));
+ background:linear-gradient(transparent,#100d23 28%);
+ display:flex;align-items:center;justify-content:center;gap:10px;
+}
+#counter{font-size:12px;color:#e7d8fa;min-width:65px}
+.candle{font-size:48px;animation:pulse 2s infinite}
+footer{color:#d5c3e8;font-size:12px;margin-top:20px}
+@media(min-width:700px){.page{padding-top:35px}.note{padding:25px}}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div class="glow"></div><div class="glow two"></div>
+<div id="app">
+
+<section class="page active">
+ <div class="heart">🪷</div>
+ <h1>မမရေ… 🤍</h1>
+ <p>ဒီသီတင်းကျွတ်ညလေးမှာ<br>မမအတွက် Surprise လေးတစ်ခုရှိတယ်။</p>
+ <p class="small">အဆုံးထိ ဖြည်းဖြည်းလေး ကြည့်ပေးနော် ✨</p>
+ <button onclick="next()">Surprise လေးကို ဖွင့်ကြည့်မယ် 🤍</button>
+</section>
+
+<section class="page">
+ <h2>မမအတွက် စာလေးတစ်စောင်…</h2>
+ <div class="envelope" onclick="next()"></div>
+ <p>ဒီစာလေးထဲမှာ မမအတွက် ဆုတောင်းစကားတွေရှိတယ်။ 🪷</p>
+ <button onclick="next()">စာလေးကို ဖွင့်မယ် 💌</button>
+</section>
+
+<section class="page">
+ <div class="heart">🪷✨</div>
+ <h1>Happy Thadingyut, Ma Ma 🤍</h1>
+ <p>မီးရောင်လေးတွေ လှပနေတဲ့ ဒီညလေးမှာ<br>မမရဲ့နေ့ရက်တိုင်းလည်း အလင်းရောင်တွေနဲ့ ပြည့်နေပါစေ။</p>
+ <button onclick="next()">ဆက်ကြည့်မယ် 🌙</button>
+</section>
+
+<section class="page">
+ <h2>မမနဲ့အတူ ကြည့်ချင်တဲ့ Video လေး 🎬</h2>
+ <div class="frame">
+  <iframe class="video-frame"
+   src="https://www.tiktok.com/player/v1/7640848495980612884?music_info=1&description=1&controls=1"
+   allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+   allowfullscreen title="TikTok video"></iframe>
+ </div>
+ <div class="note">
+  <p>ဒီသီချင်းထဲကလိုပဲ မင်းက ငါဘဝအတွက်အမြတ်နိုးဆုံးနဲ့အဖိုးတန်လူသားလေးပါပဲ မင်းနဲ့ရှိခဲ့တဲ့အချိန်တွေကငါဘဝအတွက်အပျော်ဆုံးပါပဲမမရယ်</p>
+ </div>
+ <p class="small">Video မပေါ်လာရင် TikTok ဘက်က embed ခွင့်ကန့်သတ်ထားတာ ဖြစ်နိုင်တယ်နော်။</p>
+ <button onclick="next()">နောက်ထပ်လေးရှိသေးတယ် 🤍</button>
+</section>
+
+<section class="page">
+ <div class="heart">🌙</div>
+ <h2>မမအတွက် ဆုတောင်းစကားလေးတွေ…</h2>
+ <p>မမရဲ့အပြုံးလေးတွေကို စိတ်ကူးကြည့်ရင်း<br>ကောင်းခြင်းတွေအများကြီး ဆုတောင်းပေးချင်တယ်။</p>
+ <button onclick="next()">ဆုတောင်းလေးတွေ စကြမယ် 🪷</button>
+</section>
+
+<section class="page">
+ <h2>ကြယ်လေးတစ်ပွင့် ဆုတောင်းပေးပါ ✨</h2>
+ <div class="stars-row" id="starRow">
+  <span class="star" onclick="collect(this)">⭐</span>
+  <span class="star" onclick="collect(this)">⭐</span>
+  <span class="star" onclick="collect(this)">⭐</span>
+ </div>
+ <p id="starMessage">ကြယ်လေးတွေကို တစ်ပွင့်ချင်း နှိပ်ကြည့်နော်။</p>
+ <button onclick="next()">ဆက်သွားမယ် 🤍</button>
+</section>
+
+<section class="page">
+ <h2>မမကို မေးချင်တာလေး… 🪷</h2>
+ <p>ဒီသီတင်းကျွတ်မှာ မမအတွက် ဘယ်အရာလေးက အရေးကြီးဆုံးဖြစ်မလဲ။</p>
+ <button class="choice" onclick="choose(this,'ကျန်းမာပျော်ရွှင်ခြင်း 🤍')">ကျန်းမာပျော်ရွှင်ခြင်း 🤍</button>
+ <button class="choice" onclick="choose(this,'အိပ်မက်တွေ ပြည့်ဝခြင်း ✨')">အိပ်မက်တွေ ပြည့်ဝခြင်း ✨</button>
+ <button class="choice" onclick="choose(this,'စိတ်အေးချမ်းခြင်း 🌙')">စိတ်အေးချမ်းခြင်း 🌙</button>
+ <p id="choiceMessage"></p>
+ <button onclick="next()">ဆက်သွားမယ် 💗</button>
+</section>
+
+<section class="page">
+ <h2>မမအတွက်… 🤍</h2>
+ <p>မမရဲ့ နေ့ရက်တိုင်းမှာ အပြုံးလေးတွေ ရှိနေပါစေ။</p>
+ <p>မမကြိုးစားသမျှ အဆင်ပြေပါစေ။</p>
+ <p>မမရဲ့ စိတ်ကလေးလည်း အေးချမ်းနေပါစေ။</p>
+ <p>မမရဲ့အိပ်မက်လေးတွေ တစ်ခုချင်း ပြည့်ဝလာပါစေ။ ✨</p>
+ <button onclick="next()">နောက်တစ်ခုလေး… 🪷</button>
+</section>
+
+<section class="page">
+ <div class="heart">🎁</div>
+ <h2>မမအတွက် Surprise လေး</h2>
+ <p>မမက ကိုယ့်ကိုယ်ကိုလည်း ဂရုစိုက်ဖို့ မမေ့ပါနဲ့နော်။</p>
+ <p>မမရဲ့တန်ဖိုးက မမကိုယ်တိုင်ထင်ထားတာထက်တောင် ပိုများပါတယ်။ 🤍</p>
+ <button onclick="next()">သီချင်းလေး နားထောင်မယ် 🎶</button>
+</section>
+
+<section class="page">
+ <h2>ဒီသီချင်းလေးကို နားထောင်ပေးနော် 🎶</h2>
+ <div class="record-wrap">
+  <div class="record" id="record">
+   <div class="record-label">🤍</div>
+  </div>
+ </div>
+ <div class="frame">
+  <iframe id="ytPlayer" class="youtube-frame"
+   src="https://www.youtube.com/embed/5HZ9qeFjhYk?enablejsapi=1&playsinline=1&rel=0"
+   title="သီချင်းလေး" allow="autoplay; encrypted-media; picture-in-picture"
+   allowfullscreen></iframe>
+ </div>
+ <p class="small">သီချင်းကို ဒီနေရာမှာပဲ နှိပ်ပြီး ဖွင့်နိုင်ပါတယ်။</p>
+ <button class="secondary" onclick="toggleRecord()">ဓာတ်ပြားလေးကို လှည့် / ရပ် 💿</button>
+ <button onclick="next()">ဆက်သွားမယ် 🤍</button>
+</section>
+
+<section class="page">
+ <h2>ကြယ်လေးတွေ စုထားပေးနော် ⭐</h2>
+ <p>မမရဲ့ဘဝမှာ ပျော်ရွှင်စရာ အကြောင်းအရင်းလေးတွေ များများရှိလာပါစေ။</p>
+ <div class="stars-row">
+  <span class="star">🌟</span><span class="star">✨</span>
+  <span class="star">⭐</span><span class="star">💫</span>
+ </div>
+ <button onclick="next()">နောက်ထပ်စာလေး ဖတ်မယ် 💌</button>
+</section>
+
+<section class="page">
+ <div class="heart">💌</div>
+ <h2>မမအတွက် ဆုတောင်းစာလေး…</h2>
+ <p>စိတ်အေးအေးနဲ့ ဖတ်ပေးနော်။<br>စာလေးက မမအတွက် ရည်ရွယ်ထားတာပါ။ 🤍</p>
+ <button onclick="next()">စာလေးကို ဖတ်မယ် 🪷</button>
+</section>
+
+<section class="page">
+ <div class="heart">🪷</div>
+ <h1>A Special Thadingyut Wish for Ma Ma 🤍</h1>
+ <p>With Lots of Warm Wishes ✨</p>
+ <button onclick="next()">ဆုတောင်းစာလေး ဖွင့်မယ် 💌</button>
+</section>
+
+<section class="page" id="letterPage">
+ <h2>🪷 A Special Thadingyut Wish for Ma Ma 🤍</h2>
+ <p class="small">With Lots of Warm Wishes ✨</p>
+ <article class="note">
+  <h3>သီတင်းကျွတ်အခါသမယလေးမှာ မမရေ… 🤍🎆</h3>
+  <p>ဒီလို အလင်းရောင်လေးတွေ လှပနေတဲ့ သီတင်းကျွတ်ညလေးမှာ မမအတွက် ဆုတောင်းစကားလေးတွေ အများကြီး ပြောပေးချင်တယ်နော်။ တစ်နှစ်မှာ သီတင်းကျွတ်ဆိုတဲ့ အချိန်လေးတစ်ခါ ရောက်လာသလို မမရဲ့ဘဝထဲကိုလည်း ကောင်းခြင်းတွေ၊ ပျော်ရွှင်ခြင်းတွေနဲ့ လှပတဲ့အမှတ်တရတွေ အကြိမ်ကြိမ် ရောက်လာပါစေလို့ ဆုတောင်းပေးပါတယ်။ 🪷</p>
+
+  <p>မမရဲ့ နေ့ရက်တိုင်းမှာ အပြုံးလေးတွေ အမြဲရှိနေပါစေနော်။ မမပြုံးတဲ့အခါ စိတ်ထဲမှာလည်း တကယ်ပျော်ရွှင်နေနိုင်ပါစေ။ အပြင်ပန်းမှာပဲ ပြုံးနေရပြီး အတွင်းစိတ်မှာ ပင်ပန်းနေရတဲ့နေ့တွေ နည်းပါးပါစေ။ မမရဲ့အပြုံးလေးတွေက ပျော်ရွှင်မှုအစစ်အမှန်တွေနဲ့ ပြည့်နေပါစေ။ 🤍</p>
+
+  <h3>🌷 မမ ကျန်းမာပျော်ရွှင်ပါစေ။</h3>
+  <p>မမရဲ့ကျန်းမာရေးလေးလည်း အမြဲကောင်းမွန်နေပါစေ။ အိပ်ရေးဝဝအိပ်နိုင်ပါစေ၊ အစားအစာလည်း မှန်မှန်စားနိုင်ပါစေ၊ ကိုယ့်ကိုယ်ကို ဂရုစိုက်ဖို့လည်း မမ မမေ့ပါစေနဲ့နော်။ စာတွေလုပ်ရင်း၊ အလုပ်တွေလုပ်ရင်း ပင်ပန်းလာတဲ့အခါ ကိုယ့်ကိုယ်ကို အနားပေးဖို့လည်း မမ မှတ်မိနေပါစေ။ မမရဲ့ကိုယ်ရော စိတ်ရော ကျန်းမာပြီး အေးချမ်းနေပါစေ။ 🫶</p>
+
+  <h3>✨ မမ ကြိုးစားသမျှ အဆင်ပြေပါစေ။</h3>
+  <p>မမရဲ့ ပညာရေးမှာလည်း အဆင်ပြေပါစေ။ စာလေ့လာတဲ့အခါ နားလည်လွယ်ပါစေ၊ ကြိုးစားထားသမျှလည်း ရလဒ်ကောင်းတွေ ပြန်ရပါစေ။ တစ်ခါတလေ ခက်ခဲတဲ့အရာတွေ ကြုံလာရင်တောင် မမကိုယ်တိုင်ကို ယုံကြည်မှု မပျောက်သွားပါစေနဲ့။ မမရဲ့ရည်မှန်းချက်လေးတွေဆီကို တစ်လှမ်းချင်း နီးကပ်သွားနိုင်ပါစေ။ မမကြိုးစားခဲ့တဲ့အချိန်တွေ အလဟဿမဖြစ်ဘဲ တစ်နေ့မှာ ကိုယ်တိုင်ဂုဏ်ယူနိုင်တဲ့ အောင်မြင်မှုလေးတွေ ရရှိပါစေနော်။ 🌟</p>
+
+  <h3>🌼 မမရဲ့ ဆန္ဒလေးတွေ ပြည့်ဝပါစေ။</h3>
+  <p>မမစိတ်ထဲမှာ မျှော်လင့်ထားတဲ့အရာလေးတွေ၊ တိတ်တိတ်လေး ဆုတောင်းထားတဲ့အရာလေးတွေ၊ တစ်နေ့နေ့မှာ ဖြစ်လာစေချင်တဲ့ အိပ်မက်လေးတွေ တစ်ခုချင်းစီ ပြည့်ဝလာပါစေ။ ချက်ချင်းမဖြစ်လာသေးရင်တောင် စိတ်ဓာတ်မကျဘဲ ဆက်လက်ကြိုးစားနိုင်ပါစေ။ မမမျှော်လင့်ထားတာထက်တောင် ပိုကောင်းတဲ့အရာလေးတွေ မမဘဝထဲကို ရောက်လာပါစေ။ မမအတွက် သင့်တော်တဲ့အခွင့်အရေးကောင်းတွေ၊ လူကောင်းတွေနဲ့ အတွေ့အကြုံကောင်းတွေ အများကြီး ကြုံတွေ့ရပါစေ။ 💫</p>
+
+  <h3>🌙 မမရဲ့ စိတ်ပင်ပန်းမှုတွေ လျော့နည်းပါစေ။</h3>
+  <p>ဘယ်သူမှမသိတဲ့ မမရဲ့ပင်ပန်းမှုတွေ၊ စိတ်ထဲမှာ တိတ်တိတ်လေး ခံစားနေရတဲ့အရာတွေ ရှိခဲ့ရင်လည်း အဲဒီအရာတွေကို ဖြည်းဖြည်းချင်း ကျော်ဖြတ်နိုင်ပါစေနော်။ အရာအားလုံးကို တစ်ယောက်တည်း အမြဲတမ်း သည်းခံနေရစရာ မလိုဘူးဆိုတာလည်း မမ သိထားပါစေ။ ပင်ပန်းတဲ့အခါ အနားယူနိုင်ပါစေ၊ ဝမ်းနည်းတဲ့အခါ ကိုယ့်ခံစားချက်ကို နားလည်ပေးနိုင်ပါစေ။ မမရဲ့စိတ်ကလေး အေးချမ်းပြီး ကိုယ့်ကိုယ်ကို နူးနူးညံ့ညံ့ ဆက်ဆံတတ်ပါစေ။ 🤍</p>
+
+  <h3>🕊️ မမအနားမှာ လူကောင်းတွေ ရှိနေပါစေ။</h3>
+  <p>မမကို နားလည်ပေးတဲ့သူတွေ၊ မမရဲ့ခံစားချက်တွေကို တန်ဖိုးထားပေးတဲ့သူတွေ၊ မမပင်ပန်းနေတဲ့အခါ အားပေးစကားလေး ပြောပေးမယ့်သူတွေ အနားမှာ ရှိနေပါစေ။ မမကို ပျော်ရွှင်စေတဲ့ အမှတ်တရလေးတွေ အများကြီး ပိုင်ဆိုင်နိုင်ပါစေ။ မမရဲ့ဘဝထဲကို ရောက်လာတဲ့ ကောင်းမွန်တဲ့ဆက်ဆံရေးတိုင်းကလည်း မမအတွက် နွေးထွေးမှုနဲ့ အေးချမ်းမှုတွေ ယူဆောင်လာပေးပါစေ။ 🌷</p>
+
+  <h3>🎐 မမရဲ့ အနာဂတ်လေး လှပပါစေ။</h3>
+  <p>ဒီနေ့ မမကြိုးစားနေတဲ့အရာလေးတွေက နောင်တစ်ချိန်မှာ မမအတွက် ဂုဏ်ယူစရာအမှတ်တရတွေ ဖြစ်လာပါစေ။ မမကိုယ်တိုင် ရွေးချယ်ထားတဲ့လမ်းပေါ်မှာ ယုံကြည်မှုရှိရှိ လျှောက်လှမ်းနိုင်ပါစေ။ အခက်အခဲတွေ ကြုံရတဲ့အခါ ဖြေရှင်းနိုင်မယ့်နည်းလမ်းတွေ ရှာတွေ့ပါစေ။ မမရဲ့ဘဝမှာ ဝမ်းသာရတဲ့သတင်းတွေ၊ အောင်မြင်မှုလေးတွေ၊ ရင်ထဲကနေ တကယ်ပျော်ရွှင်ရတဲ့အချိန်လေးတွေ အများကြီး ရှိလာပါစေနော်။ 🌟</p>
+
+  <h3>🪷 ဒီသီတင်းကျွတ်ညလေးမှာ အထူးဆုတောင်းပေးချင်တာက…</h3>
+  <p>မမ ဘယ်နေရာမှာပဲ ရှိနေပါစေ၊ ဘာတွေပဲ လုပ်ဆောင်နေပါစေ၊ မမရဲ့စိတ်ထဲမှာ အေးချမ်းမှုလေး ရှိနေပါစေ။ မမရဲ့ဘဝမှာ ကောင်းတဲ့အရာတွေကို လက်ခံရရှိနိုင်သလို မကောင်းတဲ့အချိန်တွေကိုလည်း ခွန်အားရှိရှိ ဖြတ်သန်းနိုင်ပါစေ။ မမရဲ့ကြိုးစားမှုတွေကို တန်ဖိုးထားတတ်ပါစေ။ ကိုယ့်ရဲ့တိုးတက်မှုလေးတွေကိုလည်း အသိအမှတ်ပြုပြီး ကိုယ့်ကိုယ်ကို ဂုဏ်ယူတတ်ပါစေနော်။ 🤍</p>
+
+  <p>သီတင်းကျွတ်မီးရောင်လေးတွေလို မမရဲ့ဘဝလေးလည်း တောက်ပနေပါစေ။ လပြည့်ညရဲ့ အေးချမ်းမှုလေးလို မမရဲ့စိတ်ကလေးလည်း ငြိမ်းချမ်းနေပါစေ။ ကြယ်လေးတွေ များပြားသလို မမရဲ့ဘဝထဲမှာ ပျော်ရွှင်စရာအကြောင်းအရင်းလေးတွေလည်း များပြားလာပါစေ။ ✨🌙</p>
+
+  <p>ဒီသီတင်းကျွတ်ကနေစပြီး မမအတွက် ကောင်းခြင်းတွေ တစ်ခုပြီးတစ်ခု ရောက်လာပါစေ။ မမရဲ့အိပ်မက်လေးတွေ အကောင်အထည်ဖော်နိုင်ပါစေ။ မမရဲ့မျက်နှာပေါ်မှာ အပြုံးလေးတွေ ပိုများလာပါစေ။ မမကိုယ်တိုင်လည်း ကိုယ့်ဘဝလေးကို ပျော်ရွှင်စွာ ဖြတ်သန်းနိုင်ပါစေနော်။</p>
+
+  <h3>Happy Thadingyut, Ma Ma 🤍🪷</h3>
+  <p>ဒီသီတင်းကျွတ်လေးမှာ မမအတွက် ဆုတောင်းပေးထားသမျှ ကောင်းခြင်းတွေ တကယ်ဖြစ်လာပါစေ။ မမရဲ့နေ့ရက်တိုင်းဟာ အဓိပ္ပာယ်ရှိပြီး လှပတဲ့အမှတ်တရလေးတွေနဲ့ ပြည့်နေပါစေ။</p>
+
+  <p><strong>မမအတွက် ကောင်းခြင်းတွေ အမြဲဆုတောင်းပေးနေပါတယ်။ 🤍🎆</strong></p>
+  <p>With lots of warm wishes. 🪷✨</p>
+ </article>
+ <button onclick="next()">နောက်ဆုံးစာမျက်နှာလေး 🤍</button>
+</section>
+
+<section class="page">
+ <div class="candle">🪷 🕯️ 🪷</div>
+ <h1>Happy Thadingyut, Ma Ma 🤍</h1>
+ <p>မမအတွက် ကောင်းခြင်းတွေ အမြဲဆုတောင်းပေးနေပါတယ်။</p>
+ <p>ဒီသီတင်းကျွတ်ညလေးကနေစပြီး<br>မမရဲ့ဘဝလေး ပိုမိုလှပတောက်ပလာပါစေနော်။ ✨</p>
+ <div class="heart">🤍</div>
+ <p>With lots of warm wishes. 🪷✨</p>
+ <button onclick="restart()">အစကနေ ပြန်ကြည့်မယ် 🌙</button>
+</section>
+
+</div>
+
+<div id="nav">
+ <button class="secondary" id="prevBtn" onclick="prev()">← နောက်သို့</button>
+ <span id="counter">1 / 15</span>
+ <button id="nextBtn" onclick="next()">ရှေ့သို့ →</button>
+</div>
+
+<script>
+const pages=[...document.querySelectorAll('.page')];
+let current=0;
+function showPage(n){
+ current=Math.max(0,Math.min(pages.length-1,n));
+ pages.forEach((p,i)=>{
+  p.classList.toggle('active',i===current);
+  if(i===current)p.scrollTop=0;
+ });
+ document.getElementById('counter').textContent=(current+1)+' / '+pages.length;
+ document.getElementById('prevBtn').style.visibility=current===0?'hidden':'visible';
+ document.getElementById('nextBtn').style.visibility=current===pages.length-1?'hidden':'visible';
+}
+function next(){showPage(current+1)}
+function prev(){showPage(current-1)}
+function restart(){showPage(0)}
+function collect(el){
+ el.classList.add('collected');
+ const count=document.querySelectorAll('.star.collected').length;
+ document.getElementById('starMessage').textContent=
+ count>=3?'မမအတွက် ဆုတောင်းကြယ်လေးတွေ ပြည့်သွားပြီနော်။ ✨🤍':'ကြယ်လေး '+count+' ပွင့် စုထားပြီးပြီ။';
+}
+function choose(el,answer){
+ document.getElementById('choiceMessage').textContent='မမအတွက် '+answer+' အမြဲရှိနေပါစေ။ 🤍';
+}
+function toggleRecord(){
+ document.getElementById('record').classList.toggle('playing');
+}
+
+/* Background stars */
+const canvas=document.getElementById('stars');
+const ctx=canvas.getContext('2d');
+let points=[];
+function resize(){
+ canvas.width=innerWidth*devicePixelRatio;
+ canvas.height=innerHeight*devicePixelRatio;
+ canvas.style.width=innerWidth+'px';
+ canvas.style.height=innerHeight+'px';
+ ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+ points=Array.from({length:100},()=>({
+  x:Math.random()*innerWidth,y:Math.random()*innerHeight,
+  r:Math.random()*1.7+.3,a:Math.random()*.7+.2,
+  s:Math.random()*.012+.003
+ }));
+}
+function draw(){
+ ctx.clearRect(0,0,innerWidth,innerHeight);
+ for(const p of points){
+  p.a+=Math.sin(Date.now()*p.s)*.003;
+  ctx.beginPath();
+  ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+  ctx.fillStyle='rgba(255,238,203,'+Math.max(.15,Math.min(.9,p.a))+')';
+  ctx.fill();
+ }
+ requestAnimationFrame(draw);
+}
+addEventListener('resize',resize);
+resize();draw();showPage(0);
+
+/* YouTube iframe API: attempt to synchronize record rotation with playback. */
+let ytPlayer,ytReady=false;
+function loadYouTubeAPI(){
+ if(document.getElementById('yt-api'))return;
+ const s=document.createElement('script');
+ s.id='yt-api';s.src='https://www.youtube.com/iframe_api';
+ document.head.appendChild(s);
+}
+window.onYouTubeIframeAPIReady=function(){
+ try{
+  ytPlayer=new YT.Player('ytPlayer',{
+   events:{
+    onReady:function(){ytReady=true},
+    onStateChange:function(e){
+     const record=document.getElementById('record');
+     if(e.data===YT.PlayerState.PLAYING)record.classList.add('playing');
+     else record.classList.remove('playing');
+    }
+   }
+  });
+ }catch(e){}
+};
+loadYouTubeAPI();
+</script>
+</body>
+</html>
